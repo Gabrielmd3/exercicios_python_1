@@ -2,11 +2,11 @@ import time
 import os
 
 def criar_tabuleiro(dimensao):
-    """Cria o tabuleiro do jogo da velha."""
+    """Cria o tabuleiro do jogo da velha com a dimensão especificada."""
     return [["-" for _ in range(dimensao)] for _ in range(dimensao)]
 
 def imprimir_tabuleiro(dimensao):
-    """Imprime o tabuleiro do jogo da velha."""
+    """Imprime o estado atual do tabuleiro do jogo da velha."""
     for linha in tabuleiro:
         linha_formatada = " | ".join(linha)
         print(linha_formatada)
@@ -14,32 +14,32 @@ def imprimir_tabuleiro(dimensao):
 
 def verificar_vitoria(jogador, dimensao):
     """
-    Verifica se o jogador ganhou o jogo.
+    Verifica se o jogador atual ganhou o jogo.
     Verifica a vitória nas linhas, colunas e diagonais.
     """
-    for linha in tabuleiro:  # Linhas
+    for linha in tabuleiro:  # Verificar linhas
         if all(casa == jogador for casa in linha):
             return True
 
-    for coluna in range(dimensao):  # Colunas
+    for coluna in range(dimensao):  # Verificar colunas
         if all(tabuleiro[linha][coluna] == jogador for linha in range(dimensao)):
             return True
 
     if all(tabuleiro[i][i] == jogador for i in range(dimensao)) or all(
         tabuleiro[i][dimensao - i - 1] == jogador for i in range(dimensao)
-    ):  # Diagonais
+    ):  # Verificar diagonais
         return True
     return False
 
 def verificar_empate(dimensao, jogadas):
-    """Verifica se houve empate."""
+    """Verifica se houve um empate no jogo."""
     if jogadas == dimensao * dimensao:
         return True
     else:
         return False
 
 def jogar_jogo(dimensao):
-    """Executa o jogo"""
+    """Executa o jogo da velha com a dimensão especificada."""
     jogadas = 1
     jogador1 = "X"
     jogador2 = "O"
@@ -60,7 +60,6 @@ def jogar_jogo(dimensao):
             time.sleep(2)
             os.system("cls")
         else:
-
             if tabuleiro[linha - 1][coluna - 1] != "-":
                 print("Esta casa já está ocupada.")
                 time.sleep(2)
@@ -81,15 +80,18 @@ def jogar_jogo(dimensao):
             jogadas += 1
             if verificar_empate(dimensao, jogadas):
                 imprimir_tabuleiro(dimensao)
-                print("Empate!")
+                print("O jogo terminou em empate!")
                 time.sleep(2)
                 break
             os.system("cls")
 
-
+# Solicitar a dimensão do tabuleiro
 dimensao = int(input("Digite o tamanho da dimensão (deve ser 3 ou mais): "))
 while dimensao < 3:
     dimensao = int(input("Tamanho muito pequeno.\nDigite o tamanho da dimensão (deve ser 3 ou mais): "))
 
+# Criar o tabuleiro com a dimensão especificada
 tabuleiro = criar_tabuleiro(dimensao)
+
+# Iniciar o jogo
 jogar_jogo(dimensao)
