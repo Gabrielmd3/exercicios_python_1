@@ -8,7 +8,7 @@ tabuleiro = [
 ]
 
 def imprimir_tabuleiro():
-    """Exibe o tabuleiro do jogo da velha."""
+    """Função para exibir o estado atual do tabuleiro do jogo da velha."""
     for linha in tabuleiro:
         linha_formatada = " | ".join(linha)
         print(linha_formatada)
@@ -16,31 +16,31 @@ def imprimir_tabuleiro():
 
 def verificar_vitoria(jogador):
     """
-    Verifica se o jogador venceu o jogo.
-    Verifica a vitória nas linhas, colunas e diagonais.
+    Função para verificar se o jogador atual venceu o jogo.
+    Verifica se o jogador ganhou nas linhas, colunas e diagonais.
     """
-    # Linhas
+    # Verificar linhas
     for linha in tabuleiro:
         if all(casa == jogador for casa in linha):
             return True
-    # Colunas
+    # Verificar colunas
     for coluna in range(4):
         if all(tabuleiro[linha][coluna] == jogador for linha in range(4)):
             return True
-    # Diagonais
+    # Verificar diagonais
     if all(tabuleiro[i][i] == jogador for i in range(4)) or all(tabuleiro[i][3 - i] == jogador for i in range(4)):
         return True
     return False
 
 def verificar_empate(jogadas):
-    """Verifica se houve empate."""
+    """Função para verificar se houve um empate no jogo."""
     if jogadas == 4 * 4:
         return True
     else:
         return False
                 
 def jogar_jogo():
-    """Executa o jogo."""
+    """Função principal para executar o jogo da velha."""
     jogadas = 1
     jogador1 = "X"
     jogador2 = "O"
@@ -51,14 +51,14 @@ def jogar_jogo():
             linha = int(input("Digite a linha (1-4): "))
             coluna = int(input("Digite a coluna (1-4): "))
             if linha < 1 or linha > 4 or coluna < 1 or coluna > 4:
-                print("Fora de dimensão!")
+                print("Posição fora de dimensão!")
                 time.sleep(2)
                 continue
         except ValueError:
-            print("Digite um número!")
+            print("Digite um número válido!")
         else:
             if tabuleiro[linha - 1][coluna - 1] != "-":
-                print("Esta casa já está ocupada.")
+                print("Esta posição já está ocupada.")
                 time.sleep(2)
                 continue
             else:
@@ -75,8 +75,9 @@ def jogar_jogo():
             jogadas += 1
             if verificar_empate(jogadas):
                 imprimir_tabuleiro()
-                print("Empate!")
+                print("O jogo terminou em empate!")
                 time.sleep(2)
                 break
 
+# Iniciar o jogo
 jogar_jogo()
