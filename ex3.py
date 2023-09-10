@@ -1,5 +1,6 @@
 import random
 
+# Lista de letras não usadas
 letras_nao_usadas = [
     "a", "b", "c", "d", "e", "f", "g", "h", "i", "j",
     "k", "l", "m", "n", "o", "p", "q", "r", "s", "t",
@@ -7,34 +8,34 @@ letras_nao_usadas = [
 ]
 
 def carregar_palavras():
-    """Carrega o arquivo txt com as palavras."""
+    """Carrega o arquivo txt com as palavras para o jogo da forca."""
     with open("lista_palavras.txt", "r", encoding="UTF-8") as arquivo:
         palavras = [linha.strip() for linha in arquivo.readlines() if linha.strip()]
     return palavras
 
 def verificar_letras(tentativa_palavra):
-    """Verifica as letras usadas pelo jogador e remove da lista."""
-    for l in tentativa_palavra:
+    """Verifica as letras usadas pelo jogador e remove da lista de letras não usadas."""
+    for letra in tentativa_palavra:
         for i in letras_nao_usadas:
-            if i == l:
-                letras_nao_usadas.remove(l)
+            if i == letra:
+                letras_nao_usadas.remove(letra)
 
 def imprimir_letras_nao_usadas():
     """Exibe as letras que ainda não foram usadas pelo jogador."""
     print("Letras não usadas:")
-    for i in letras_nao_usadas:
-        print(i, end=" ")
+    for letra in letras_nao_usadas:
+        print(letra, end=" ")
 
 def cor_letra(palavra, tentativa):
-    """Verifica se a letra está correta e aplica cores para identificação."""
+    """Verifica se a letra está correta e aplica cores para identificação na exibição."""
     cor = ""
     for i in range(len(palavra)):
         if tentativa[i] == palavra[i]:
-            cor += "\033[92m" + tentativa[i] + "\033[0m"  # Posição certa: Verde
+            cor += "\033[92m" + tentativa[i] + "\033[0m"  # Letra correta na posição correta (Verde)
         elif tentativa[i] in palavra:
-            cor += "\033[93m" + tentativa[i] + "\033[0m"  # Posição errada: Amarelo
+            cor += "\033[93m" + tentativa[i] + "\033[0m"  # Letra correta na posição errada (Amarelo)
         else:
-            cor += tentativa[i]  # Letra errada: Não muda a cor
+            cor += tentativa[i]  # Letra errada (Sem cor)
     return cor
 
 def escolher_palavra(tamanho, palavras):
@@ -43,7 +44,7 @@ def escolher_palavra(tamanho, palavras):
     return random.choice(palavras_filtradas)
 
 def jogar():
-    """Função principal do jogo."""
+    """Função principal para executar o jogo da forca."""
     palavras = carregar_palavras()
     
     while True:
@@ -81,6 +82,7 @@ def jogar():
             print(f"Palavra: {cor} - Tentativas restantes: {tentativas}")
 
     if tentativas == 0:
-        print(f"Você perdeu! A palavra é: {palavra}")
+        print(f"Você perdeu! A palavra era: {palavra}")
 
+# Iniciar o jogo da forca
 jogar()
